@@ -32,23 +32,52 @@ def run(argv=None, save_main_session=True):
         '--input',
         dest='input',
         default='gs://dataflow-samples/shakespeare/kinglear.txt',
-        help='Input file to process.')
+        help='Input file to process.',
+        required=True)
     parser.add_argument(
-        '--output',
+        '--output-file',
         dest='output',
-        required=True,
-        help='Output file to write results to.')
+        help='Output file to write results to.',
+        required=True)
+    parser.add_argument(
+        '--job_name',
+        dest='job_name',
+        help='Name of the job in Dataflow.',
+        required=True)
+    parser.add_argument(
+        '--project',
+        dest='project',
+        help='The name of your GCP project.',
+        required=True)
+    parser.add_argument(
+        '--region',
+        dest='region',
+        help='The region the job should run in.',
+        required=True)
+    parser.add_argument(
+        '--temp_location',
+        dest='temp_location',
+        help='A location in GCS to store temporary files.',
+        required=True)
+    parser.add_argument(
+        '--staging_location.',
+        dest='staging_location',
+        help='A location in GCS to store temporary files.',
+        required=True)
     known_args, pipeline_args = parser.parse_known_args(argv)
 
-    # We use the save_main_session option because one or more DoFn's in this
-    # workflow rely on global context (e.g., a module imported at module level).
-    pipeline_options = PipelineOptions(pipeline_args)
-    pipeline_options.view_as(SetupOptions).save_main_session = save_main_session
+    pipeline_options = PipelineOptions(
+        pipeline_args,
+        streaming=False,
+        save_main_session=save_main_session,
+        job_name=known_args.job_name,
+        project=known_args.project,
+        region=known_args.region,
+        temp_location=known_args.temp_location,
+        staging_location=known_args.staging_location)
 
-    # The pipeline will be run on exiting the with block.
     with beam.Pipeline(options=pipeline_options) as p:
 
-        # Read the text file[pattern] into a PCollection.
         lines = p | 'Read' >> ReadFromText(known_args.input)
 
         counts = (
@@ -57,14 +86,10 @@ def run(argv=None, save_main_session=True):
             | 'PairWithOne' >> beam.Map(lambda x: (x, 1))
             | 'GroupAndSum' >> beam.CombinePerKey(sum))
 
-        # Format the counts into a PCollection of strings.
         def format_result(word, count):
             return '%s: %d' % (word, count)
 
         output = counts | 'Format' >> beam.MapTuple(format_result)
-
-        # Write the output using a "Write" transform that has side effects.
-        # pylint: disable=expression-not-assigned
         output | 'Write' >> WriteToText(known_args.output)
 
 
