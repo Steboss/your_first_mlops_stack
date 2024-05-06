@@ -2,7 +2,7 @@
 
 This example shows how to use the Transform `CombineFn`. To work with this code, it is necessary to create an initial log files with `generate_data.py` script.
 
-### Run the example:
+### Run the example
 
 Generate the data
 
