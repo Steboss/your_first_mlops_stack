@@ -59,11 +59,6 @@ def run(argv=None, save_main_session=True):
         dest='temp_location',
         help='A location in GCS to store temporary files.',
         required=True)
-    parser.add_argument(
-        '--staging_location.',
-        dest='staging_location',
-        help='A location in GCS to store temporary files.',
-        required=True)
     known_args, pipeline_args = parser.parse_known_args(argv)
 
     pipeline_options = PipelineOptions(
@@ -73,8 +68,7 @@ def run(argv=None, save_main_session=True):
         job_name=known_args.job_name,
         project=known_args.project,
         region=known_args.region,
-        temp_location=known_args.temp_location,
-        staging_location=known_args.staging_location)
+        temp_location=known_args.temp_location,)
 
     with beam.Pipeline(options=pipeline_options) as p:
 
