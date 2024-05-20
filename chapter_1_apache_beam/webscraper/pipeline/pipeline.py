@@ -118,7 +118,7 @@ def run_pipeline(argv=None):
     with beam.Pipeline(options=pipeline_options) as p:
         (p
          | 'Read from input list' >> beam.Create(known_args.input_list)
-         | 'Scrape Subjects' >> beam.Pardo(ScrapeNews())
+         | 'Scrape Subjects' >> beam.ParDo(ScrapeNews())
          | 'Save on GCS' >> beam.ParDo(WordCloud(output_bucket=known_args.output_bucket, filename=joined_name))
          )
 
