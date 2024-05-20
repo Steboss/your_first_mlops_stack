@@ -1,0 +1,31 @@
+{
+    "name": "webscraper-pipeline",
+    "description": "This is a webscraper",
+    "parameters": [
+      {
+        "name": "input-list",
+        "label": "Input list",
+        "helpText": "List of terms to look for"
+      },
+      {
+        "name": "output-bucket",
+        "label": "Output Bucket",
+        "helpText": "Path to the output file"
+      },
+      {
+        "name": "project",
+        "label": "GCP project",
+        "helpText": "Project to run the dataflow job on"
+      },
+      {
+        "name": "job_name",
+        "label": "Dataflow job name",
+        "helpText": "Name of the dataflow job"
+      },
+      {
+        "name": "region",
+        "label": "Region",
+        "helpText": "Region to run the dataflow job in"
+      }
+    ]
+}

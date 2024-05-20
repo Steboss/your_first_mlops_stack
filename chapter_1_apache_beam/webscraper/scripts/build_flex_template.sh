@@ -24,7 +24,7 @@ docker push europe-west2-docker.pkg.dev/${PROJECT_ID}/${ARTIFACT_REGISTRY_REPO}/
 if ! gsutil ls -p ${PROJECT_ID} gs://${FLEX_BUCKET} &> /dev/null;
     then
         echo creating gs://${FLEX_BUCKET} ... ;
-        gcloud storage buckets gs://${FLEX_BUCKET} --location eu-west-2;
+        gcloud storage buckets create gs://${FLEX_BUCKET} --location eu;
         sleep 5;
     else
         echo "Bucket ${FLEX_BUCKET} already exists!"

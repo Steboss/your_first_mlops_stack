@@ -1,0 +1,31 @@
+{
+    "name": "my-processing-logs-pipeline",
+    "description": "This is a processing log pipeline",
+    "parameters": [
+      {
+        "name": "input-file",
+        "label": "Input File",
+        "helpText": "Path to the input file"
+      },
+      {
+        "name": "output-file",
+        "label": "Output File",
+        "helpText": "Path to the output file"
+      },
+      {
+        "name": "project",
+        "label": "GCP project",
+        "helpText": "Project to run the dataflow job on"
+      },
+      {
+        "name": "job_name",
+        "label": "Dataflow job name",
+        "helpText": "Name of the dataflow job"
+      },
+      {
+        "name": "region",
+        "label": "Region",
+        "helpText": "Region to run the dataflow job in"
+      }
+    ]
+}
