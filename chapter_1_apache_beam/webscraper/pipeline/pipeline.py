@@ -95,8 +95,10 @@ class WordCloud(beam.DoFn):
 
 def run_pipeline(argv=None):
     parser = argparse.ArgumentParser()
-    parser.add_argument('--input-list', dest='input_list', nargs='+',
-                        help="List of words to look for", required=True)
+    # this must be changed with an input file
+    parser.add_argument('--input-list', dest='input_list',
+                        help="File with a list of words to look for",
+                        required=True)
     parser.add_argument('--output-bucket', dest='output_bucket',
                         help="Output bucket to save wordcloud", required=True)
     parser.add_argument('--job_name', dest='job_name', required=True)

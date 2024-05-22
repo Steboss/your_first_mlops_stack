@@ -1,0 +1,34 @@
+# PIPELINE DEFINITION
+# Name: iris-processing-pipeline
+# Description: An example pipeline that processes the Iris dataset.
+components:
+  comp-iris-processing-op:
+    executorLabel: exec-iris-processing-op
+deploymentSpec:
+  executors:
+    exec-iris-processing-op:
+      container:
+        args:
+        - --input-csv
+        - /Users/stefano.bosisio/Documents/medium/beam/your_first_mlops_stack/chapter_2_model_training/02_kubeflow_iris_as_op_local/iris.csv
+        - --output-csv
+        - /Users/stefano.bosisio/Documents/medium/beam/your_first_mlops_stack/chapter_2_model_training/02_kubeflow_iris_as_op_local/iris_means.csv
+        command:
+        - python
+        - /process_iris.py
+        image: sbsynth/iris-processor:latest
+pipelineInfo:
+  description: An example pipeline that processes the Iris dataset.
+  name: iris-processing-pipeline
+root:
+  dag:
+    tasks:
+      iris-processing-op:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-iris-processing-op
+        taskInfo:
+          name: iris-processing-op
+schemaVersion: 2.1.0
+sdkVersion: kfp-2.7.0
