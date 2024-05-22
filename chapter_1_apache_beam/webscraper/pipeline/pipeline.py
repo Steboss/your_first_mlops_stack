@@ -1,5 +1,6 @@
 import argparse
 import apache_beam as beam
+from apache_beam.io import ReadFromText
 from apache_beam.options.pipeline_options import PipelineOptions
 from apache_beam.io.gcp import gcsio
 import requests
@@ -96,7 +97,7 @@ class WordCloud(beam.DoFn):
 def run_pipeline(argv=None):
     parser = argparse.ArgumentParser()
     # this must be changed with an input file
-    parser.add_argument('--input-list', dest='input_list',
+    parser.add_argument('--input-file', dest='input_file',
                         help="File with a list of words to look for",
                         required=True)
     parser.add_argument('--output-bucket', dest='output_bucket',
@@ -114,15 +115,17 @@ def run_pipeline(argv=None):
         region=known_args.region
     )
 
-    # Generate the filename from the input list
-    joined_name = ''.join(known_args.input_list).replace(" ", "")
-
     with beam.Pipeline(options=pipeline_options) as p:
-        (p
-         | 'Read from input list' >> beam.Create(known_args.input_list)
-         | 'Scrape Subjects' >> beam.ParDo(ScrapeNews())
-         | 'Save on GCS' >> beam.ParDo(WordCloud(output_path=known_args.output_bucket, filename=joined_name))
-         )
+        input_elements = (p
+                          | 'Read from input file' >> beam.ReadFromText(known_args.input_file)
+                          | 'Split' >> beam.FlatMap(lambda x: x.split('\n'))
+                          )
+
+        for input_element in input_elements:
+            scraper_pipe = (input_element
+                            | 'Scrape Subjects' >> beam.ParDo(ScrapeNews())
+                            | 'Save on GCS' >> beam.ParDo(WordCloud(output_path=known_args.output_bucket, filename=input_element))
+                            )
 
 
 if __name__ == '__main__':
