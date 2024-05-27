@@ -34,5 +34,5 @@ gcloud dataflow flex-template run ${PIPELINE_NAME} \
 --parameters job_name=${JOB_NAME} \
 --parameters project=${PROJECT_ID} \
 --parameters region=${REGION} \
---parameters input-list=apple \
+--parameters input-file=gs://flex_templates_my_pipeline/input_words.txt \
 --parameters output-bucket=${OUTPUT_BUCKET}

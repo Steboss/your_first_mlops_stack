@@ -1,4 +1,6 @@
 #!/bin/bash
+# copy the file input_words.txt to the bucket
+gsutil cp input_words.txt gs://flex_templates_my_pipeline/input_words.txt
 
 export ARTIFACT_REGISTRY_REPO="webscraper-pipeline"
 export PROJECT_ID=$(gcloud config get-value project)

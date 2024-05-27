@@ -3,9 +3,9 @@
     "description": "This is a webscraper",
     "parameters": [
       {
-        "name": "input-list",
-        "label": "Input list",
-        "helpText": "List of terms to look for"
+        "name": "input-file",
+        "label": "Input file",
+        "helpText": "File with of terms to look for"
       },
       {
         "name": "output-bucket",
