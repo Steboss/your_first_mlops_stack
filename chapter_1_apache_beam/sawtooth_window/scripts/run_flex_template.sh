@@ -12,7 +12,7 @@ export OUTPUT_TOPIC="projects/${PROJECT_ID}/topics/example-output-sawtooth"
 
 echo "Running Flex Template"
 gcloud dataflow flex-template run ${PIPELINE_NAME} \
---project=${PROJECT} \
+--project=${PROJECT_ID} \
 --template-file-gcs-location=${DATAFLOW_GCS_LOCATION} \
 --worker-region=${RUNNING_REGION} \
 --region=${RUNNING_REGION} \
