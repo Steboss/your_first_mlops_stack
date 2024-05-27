@@ -1,0 +1,31 @@
+{
+    "name": "my-processing-logs-pipeline",
+    "description": "This is a processing log pipeline",
+    "parameters": [
+      {
+        "name": "input-subscription",
+        "label": "Input Subscription",
+        "helpText": "Input subscription for pub/sub"
+      },
+      {
+        "name": "output-topic",
+        "label": "Output Topic",
+        "helpText": "Output topic for pub/sub"
+      },
+      {
+        "name": "project",
+        "label": "GCP project",
+        "helpText": "Project to run the dataflow job on"
+      },
+      {
+        "name": "job_name",
+        "label": "Dataflow job name",
+        "helpText": "Name of the dataflow job"
+      },
+      {
+        "name": "region",
+        "label": "Region",
+        "helpText": "Region to run the dataflow job in"
+      }
+    ]
+}
