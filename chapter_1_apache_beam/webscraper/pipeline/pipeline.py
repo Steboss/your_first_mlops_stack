@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 from structlog import get_logger
 from io import BytesIO
 import matplotlib.pyplot as plt
+from wordcloud import WordCloud, STOPWORDS
 
 logger = get_logger()
 
@@ -67,7 +68,7 @@ class ScrapeNews(beam.DoFn):
             yield element, (news_titles, news_names)
 
 
-class WordCloud(beam.DoFn):
+class GenerateWordCloud(beam.DoFn):
     def __init__(self, output_path):
         """ We need a constructor to set the output path"""
         self.output_path = output_path
@@ -76,11 +77,12 @@ class WordCloud(beam.DoFn):
         """ Generate a word cloud from the titles"""
         filename, data = element
         text = ' '.join(data[0])
-        wordcloud = WordCloud().generate(text)
+        stopwords = set(STOPWORDS)
+        generated_wordcloud = WordCloud(stopwords=stopwords, width=800, height=400, background_color='white').generate(text)
         # Prepare to save the image to GCS
         output = BytesIO()
         plt.figure(figsize=(10, 5))
-        plt.imshow(wordcloud, interpolation='bilinear')
+        plt.imshow(generated_wordcloud, interpolation='bilinear')
         plt.axis("off")
         plt.savefig(output, format='png')
         plt.close()
@@ -123,7 +125,7 @@ def run_pipeline(argv=None):
         # Apply the ScrapeNews transform
         scraped = lines | 'ScrapeNews' >> beam.ParDo(ScrapeNews())
         # Generate and save word clouds
-        _ = scraped | 'GenerateWordCloud' >> beam.ParDo(WordCloud(output_path=known_args.output_bucket))
+        _ = scraped | 'GenerateWordCloud' >> beam.ParDo(GenerateWordCloud(output_path=known_args.output_bucket))
 
     result = p.run()
     result.wait_until_finish()
