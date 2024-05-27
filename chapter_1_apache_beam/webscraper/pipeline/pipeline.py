@@ -139,6 +139,9 @@ def run_pipeline(argv=None):
         current_line = input_element.strip()
         (pipeline | f'Scrape {current_line}' >> beam.ParDo(ScrapeNews(current_element=current_line))
          | f'Save {current_line} on GCS' >> beam.ParDo(WordCloud(output_path=known_args.output_bucket, filename=current_line)))
+    # do not forget
+    result = pipeline.run()
+    result.wait_until_finish()
 
 
 if __name__ == '__main__':
