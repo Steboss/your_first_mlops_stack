@@ -8,6 +8,7 @@ from structlog import get_logger
 from io import BytesIO
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud, STOPWORDS
+from google.cloud import storage
 
 logger = get_logger()
 
@@ -89,11 +90,11 @@ class GenerateWordCloud(beam.DoFn):
         # Reset stream position
         output.seek(0)
         # Write to Google Cloud Storage
-        gcs_path = f"{self.output_path}/{filename}.png"
-        gcs = gcsio.GcsIO()
-        gcs.write(gcs_path, output.getvalue())
+        storage_client = storage.Client()
+        bucket = storage_client.get_bucket(self.output_path)
+        blob = bucket.blog(f"{filename}.png")
 
-        yield f"Word cloud saved to {gcs_path}"
+        blob.upload_from_string(output.getvalue(), content_type='image/png')
 
 
 def run_pipeline(argv=None):
