@@ -8,12 +8,18 @@ from bs4 import BeautifulSoup
 from structlog import get_logger
 from io import BytesIO
 import matplotlib.pyplot as plt
+from google.cloud import storage
+from io import StringIO
 
 
 logger = get_logger()
 
 
 class ScrapeNews(beam.DoFn):
+    def __init__(self, current_element):
+        """ Constructor to receive the current element to process"""
+        self.current_element = current_element
+
     def process(self, element):
         """ Transform to perform scraping"""
         def remove_duplicates_and_corresponding_elements(list1, list2):
@@ -36,7 +42,7 @@ class ScrapeNews(beam.DoFn):
             return new_list1, new_list2
 
         base_url = "https://news.google.com/search"
-        query = f"{element}"
+        query = f"{self.current_element}"
         params = {'q': query, 'hl': 'en-US', 'gl': 'US', 'ceid': 'US:en'}
         response = requests.get(base_url, params=params)
 
@@ -115,17 +121,24 @@ def run_pipeline(argv=None):
         region=known_args.region
     )
 
-    with beam.Pipeline(options=pipeline_options) as p:
-        input_elements = (p
-                          | 'Read from input file' >> ReadFromText(known_args.input_file)
-                          | 'Split' >> beam.FlatMap(lambda x: x.split('\n'))
-                          )
+    # create a pipeline object
+    pipeline = beam.Pipeline(options=pipeline_options)
+    # read the input file
+    storage_client = storage.Client()
+    bucket = known_args.input_file.split("/")[2]
+    file_name = known_args.input_file.split("/")[-1]
+    bucket = storage_client.get_bucket(bucket)
+    blob = bucket.blob(file_name)
+    blob = blob.download_as_string()
+    blob = blob.decode('utf-8')
+    blob = StringIO(blob)
+    input_elements = blob.readlines()
 
-        for input_element in input_elements:
-            scraper_pipe = (input_element
-                            | 'Scrape Subjects' >> beam.ParDo(ScrapeNews())
-                            | 'Save on GCS' >> beam.ParDo(WordCloud(output_path=known_args.output_bucket, filename=input_element))
-                            )
+    for input_element in input_elements:
+        current_line = input_element.strip()
+        pipeline
+        | 'Scrape Subjects' >> beam.ParDo(ScrapeNews(current_element=current_line))
+        | 'Save on GCS' >> beam.ParDo(WordCloud(output_path=known_args.output_bucket, filename=current_line))
 
 
 if __name__ == '__main__':
