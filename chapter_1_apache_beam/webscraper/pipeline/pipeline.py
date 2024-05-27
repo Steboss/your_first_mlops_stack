@@ -92,7 +92,7 @@ class GenerateWordCloud(beam.DoFn):
         # Write to Google Cloud Storage
         storage_client = storage.Client()
         bucket = storage_client.get_bucket(self.output_path)
-        blob = bucket.blog(f"{filename}.png")
+        blob = bucket.blob(f"{filename}.png")
 
         blob.upload_from_string(output.getvalue(), content_type='image/png')
 
