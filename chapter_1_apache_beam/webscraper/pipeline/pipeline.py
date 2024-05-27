@@ -117,7 +117,7 @@ def run_pipeline(argv=None):
 
     with beam.Pipeline(options=pipeline_options) as p:
         input_elements = (p
-                          | 'Read from input file' >> beam.ReadFromText(known_args.input_file)
+                          | 'Read from input file' >> ReadFromText(known_args.input_file)
                           | 'Split' >> beam.FlatMap(lambda x: x.split('\n'))
                           )
 
