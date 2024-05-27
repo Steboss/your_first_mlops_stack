@@ -76,7 +76,7 @@ class GenerateWordCloud(beam.DoFn):
 
     def process(self, element):
         """ Generate a word cloud from the titles"""
-        filename, data = element
+        filename, data = element[0]
         text = ' '.join(data[0])
         stopwords = set(STOPWORDS)
         generated_wordcloud = WordCloud(stopwords=stopwords, width=800, height=400, background_color='white').generate(text)
