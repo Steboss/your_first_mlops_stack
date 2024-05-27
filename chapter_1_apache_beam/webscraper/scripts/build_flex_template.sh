@@ -33,7 +33,7 @@ if ! gsutil ls -p ${PROJECT_ID} gs://${FLEX_BUCKET} &> /dev/null;
 fi
 
 echo "Build Flex Template"
-gcloud dataflow flex-template build gs://${FLEX_BUCKET}/${TEMPLATE_FILE}.json \
+gcloud dataflow flex-template build gs://${FLEX_BUCKET}/${TEMPLATE_FILE} \
 --image-gcr-path europe-west2-docker.pkg.dev/${PROJECT_ID}/${ARTIFACT_REGISTRY_REPO}/webscraper_pipeline:latest \
 --sdk-language "PYTHON" \
 --metadata-file metadata/metadata.json \
