@@ -6,7 +6,7 @@ export RUNNING_REGION="europe-west1"
 export FLEX_BUCKET="flex_templates_my_pipeline"
 export TEMPLATE_FILE="sawtooth_template.json"
 export DATAFLOW_GCS_LOCATION="gs://${FLEX_BUCKET}/${TEMPLATE_FILE}"
-export INPUT_SUBSCRIPTION="projects/${PROJECT_ID}/subscriptions/sawtooth-window"
+export INPUT_SUBSCRIPTION="projects/${PROJECT_ID}/subscriptions/input-sawtooth-window-sub"
 export OUTPUT_TOPIC="projects/${PROJECT_ID}/topics/example-output-sawtooth"
 
 
