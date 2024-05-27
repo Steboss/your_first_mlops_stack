@@ -6,3 +6,4 @@ structlog
 beautifulsoup4
 wordcloud
 matplotlib
+texthero

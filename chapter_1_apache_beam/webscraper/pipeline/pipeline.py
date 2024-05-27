@@ -76,7 +76,7 @@ class WordCloud(beam.DoFn):
         """ Generate a word cloud from the titles"""
         filename, data = element
         text = ' '.join(data[0])
-        wordcloud = WordCloud(width=800, height=400, background_color='white').generate(text)
+        wordcloud = WordCloud().generate(text)
         # Prepare to save the image to GCS
         output = BytesIO()
         plt.figure(figsize=(10, 5))
