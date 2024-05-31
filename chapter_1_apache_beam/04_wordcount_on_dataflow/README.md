@@ -32,5 +32,5 @@ python pipeline.py --runner DataflowRunner \
         --job_name wordcount-pipeline \
         --project ${PROJECT_ID} \
         --region europe-west1 \
-        --temp_location gs://your-temp-bucket-for-dataflow-tests \
+        --temp_location gs://your-temp-bucket-for-dataflow-tests
 ```

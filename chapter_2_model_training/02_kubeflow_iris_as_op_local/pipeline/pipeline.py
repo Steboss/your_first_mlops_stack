@@ -8,8 +8,7 @@ def iris_processing_op():
         image='sbsynth/iris-processor:latest',
         command=["python", "/process_iris.py"],
         args=[
-            '--input-csv', '/Users/stefano.bosisio/Documents/medium/beam/your_first_mlops_stack/chapter_2_model_training/02_kubeflow_iris_as_op_local/iris.csv',
-            '--output-csv', '/Users/stefano.bosisio/Documents/medium/beam/your_first_mlops_stack/chapter_2_model_training/02_kubeflow_iris_as_op_local/iris_means.csv'
+            "--input-csv", "/iris.csv",
         ]
     )
 
@@ -19,7 +18,8 @@ def iris_processing_op():
    description='An example pipeline that processes the Iris dataset.'
 )
 def iris_pipeline():
-    iris_processing_op()
+    iris_output = iris_processing_op()
+    iris_output.set_caching_options(False)
 
 
 # Compile the pipeline

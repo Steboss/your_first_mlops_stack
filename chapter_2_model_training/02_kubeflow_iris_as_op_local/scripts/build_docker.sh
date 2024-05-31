@@ -8,5 +8,5 @@ export DOCKER_USER=$(docker-credential-$(jq -r .credsStore ~/.docker/config.json
 ' | sort -u | head -n 1)
 
 
-docker build -t ${DOCKER_USER}/iris-processor:latest -f docker/Dockerfile .
+docker build -t ${DOCKER_USER}/iris-processor:latest -f docker/Dockerfile . --no-cache
 docker push ${DOCKER_USER}/iris-processor:latest

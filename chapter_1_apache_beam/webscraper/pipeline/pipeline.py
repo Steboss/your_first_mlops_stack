@@ -1,7 +1,6 @@
 import argparse
 import apache_beam as beam
 from apache_beam.options.pipeline_options import PipelineOptions
-from apache_beam.io.gcp import gcsio
 import requests
 from bs4 import BeautifulSoup
 from structlog import get_logger

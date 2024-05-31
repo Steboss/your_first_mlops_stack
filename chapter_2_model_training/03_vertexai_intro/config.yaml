@@ -1,0 +1,8 @@
+project_region: europe-west1
+vertex_project: data-gearbox-421420
+vertex_bucket: gs://vertex_inputfiles
+cache: False
+input_data_path: gs://vertex_inputfiles/poc_table
+container_image: UPDATE
+location: europe-west1-b
+artefacts_bucket: vertexai_output_models

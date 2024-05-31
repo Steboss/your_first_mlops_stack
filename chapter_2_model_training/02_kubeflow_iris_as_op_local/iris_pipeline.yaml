@@ -10,9 +10,7 @@ deploymentSpec:
       container:
         args:
         - --input-csv
-        - /Users/stefano.bosisio/Documents/medium/beam/your_first_mlops_stack/chapter_2_model_training/02_kubeflow_iris_as_op_local/iris.csv
-        - --output-csv
-        - /Users/stefano.bosisio/Documents/medium/beam/your_first_mlops_stack/chapter_2_model_training/02_kubeflow_iris_as_op_local/iris_means.csv
+        - /iris.csv
         command:
         - python
         - /process_iris.py
@@ -24,8 +22,7 @@ root:
   dag:
     tasks:
       iris-processing-op:
-        cachingOptions:
-          enableCache: true
+        cachingOptions: {}
         componentRef:
           name: comp-iris-processing-op
         taskInfo:
