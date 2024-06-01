@@ -6,3 +6,4 @@ input_data_path: gs://vertex_inputfiles/poc_table
 container_image: europe-west2-docker.pkg.dev/data-gearbox-421420/randomforest-vertexai/randomforest_vertexai
 location: europe-west2-b
 artefacts_bucket: vertexai_output_models
+project_id: data-gearbox-421420
