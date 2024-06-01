@@ -3,7 +3,7 @@
 export ARTIFACT_REGISTRY_REPO="randomforest-vertexai"
 export PROJECT_ID=$(gcloud config get-value project)
 
-gcloud artifacts repositories create ${ARTIFACT_REGISTSRY_REPO} \
+gcloud artifacts repositories create ${ARTIFACT_REGISTRY_REPO} \
     --repository-format=docker \
     --location=europe-west2 \
     --description="Repo for vertexAI models" \
