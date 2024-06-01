@@ -15,7 +15,7 @@ RUN apt-get update -q && \
 ENV PATH $PATH:/usr/local/gcloud/google-cloud-sdk/bin
 
 COPY requirements.txt requirements.txt
-COPY random_forest.py random_forest.py
+COPY randomforest.py randomforest.py
 RUN pip install -r requirements.txt
 
-ENTRYPOINT ["python", "random_forest.py" ]
+ENTRYPOINT ["python", "randomforest.py" ]
