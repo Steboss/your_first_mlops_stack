@@ -1,8 +1,8 @@
-project_region: europe-west1
+project_region: europe-west2
 vertex_project: data-gearbox-421420
 vertex_bucket: gs://vertex_inputfiles
 cache: False
 input_data_path: gs://vertex_inputfiles/poc_table
-container_image: UPDATE
-location: europe-west1-b
+container_image: europe-west2-docker.pkg.dev/data-gearbox-421420/randomforest-vertexai/randomforest_vertexai
+location: europe-west2-b
 artefacts_bucket: vertexai_output_models
