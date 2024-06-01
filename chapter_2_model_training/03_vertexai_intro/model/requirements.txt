@@ -1,5 +1,5 @@
-numpy==1.21.0
-pandas==1.2.4
+numpy
+pandas
 google-cloud-secret-manager
 google-cloud-storage
 gcsfs
