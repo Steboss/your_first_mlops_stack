@@ -4,7 +4,7 @@
 pip3 install -r requirements.txt
 
 # run the code
-python3 create_fake_dataset.py
+python3 generate_data.py
 
 # copy the file to the bucket
 gsutil cp fake_dataset.csv gs://vertexai_inputfiles/fake_dataset.csv
