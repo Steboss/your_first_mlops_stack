@@ -326,7 +326,7 @@ if __name__ == "__main__":
             pipeline_root=config["vertex_bucket"],
             parameter_values=config,
             enable_caching=bool(config["cache"]),
-            project=config["project_id"] if not project_vertex else project_vertex,
+            project=config["project_id"],
             location=config["project_region"],
         )
     pipeline.submit()
