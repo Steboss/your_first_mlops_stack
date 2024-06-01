@@ -197,7 +197,7 @@ def pipeline(
 
 if __name__ == "__main__":
     package_path = "pipeline.json"
-    config = yaml.safe_load(Path("vertex_config.yaml").read_text())
+    config = yaml.safe_load(Path("config.yaml").read_text())
     pipe = compiler.Compiler().compile(pipeline_func=pipeline, package_path=package_path)
     with open(package_path, "r") as ifile:
          pipeline_specs = json.load(ifile)
