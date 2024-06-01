@@ -8,6 +8,124 @@ import yaml
 import json
 
 
+
+@component(
+    packages_to_install=[
+        "google-cloud-bigquery",
+        "google-cloud-storage",
+        "pandas",
+        "pandas-gbq",
+        "fsspec",
+        "gcsfs",
+    ]
+)
+def read_from_bq(
+    sql_query: str,
+    project_id: str,
+    save_results: Optional[bool] = True,
+    user_output_data_path: Optional[str] = None,
+    output_data_format: Optional[str] = "parquet",
+    after_component: Optional[str] = None,
+) -> str:
+    """This function runs an sql query in BQ and returns the Kubeflow path the data are stored.
+
+    By Default `save_results` is fixed to True, so the component runs extract_table
+    and results are exported to either `user_output_data_path` or a standard on-the-fly created
+    kubeflow path.
+
+    The dataframe can be saved in parquet (default) or csv format.
+
+    The input data are read through BQ API Storage:
+    https://cloud.google.com/bigquery/docs/pandas-gbq-migration#using_the_to_download_large_results
+    Note packages ffspec and gcsfs allow to write data to gcs, so they are installed but not actively used.
+
+    In order to make this step sequential, so to be executed after a given task, the output of a
+    previous step can be injected as after_component, so kfp will read the logical sequence of steps.
+    For example:
+    set_data = bigquery.read_from_bq(query1, project_id)
+    set_data2 = bigquery.read_from_bq(query1, project_id, after_component=set_data.output)
+
+    Args
+    ----------
+        sql_query: str, input SQL query; in text format OR a GCS link
+        project_id: str, the project id to work with (e.g. trustedplatform-pl-staging)
+        save_results: Optional(bool), default true, so results will be stored in a on-the-fly
+                        gcs path or in a user defined path
+        user_output_data_path: Optional(str), optional user path for saving data
+        output_data_format: Optional(str), the output format, this may be "csv" or "parquet".
+                            If not given "parquet" will be preferred
+        after_component: This is an optional input and can be a Dataset, Model or string type. This is a dummy variables
+                        and it is implemented to allow components to be executed in sequential order.
+                        For example
+
+    Return
+    ------
+        output_data_path: kfp.v2.dsl.OutputPath
+    """
+    from google.cloud import bigquery
+    from google.cloud import storage
+    import logging
+
+    def read_from_gcs(project_id):
+        r""" Extract the query from a gcs bucket"""
+        storage_client = storage.Client(project=project_id)
+        gcs_components = sql_query.replace("gs://", "").split("/")
+        # source bucket
+        source_bucket = storage_client.bucket(gcs_components[0])
+        # source blob
+        source_blob = source_bucket.blob("/".join(gcs_components[1:]))
+        source_blob = source_blob.download_as_string()
+        parsed_query = source_blob.decode('utf-8')
+
+        return parsed_query
+
+    logging.getLogger().setLevel(logging.INFO)
+    client = bigquery.Client(project=project_id)
+    parsed_query = read_from_gcs(project_id) if sql_query.startswith("gs://") else sql_query
+    job = client.query(parsed_query)
+    job.result()
+
+    if not save_results:
+        return
+
+    if job.num_child_jobs >= 1:
+        # To handle multi stage jobs, we presume the last child job is the job
+        # that creates the table the user is interested in. This overwrites the
+        # `job` variable. The last child job is actually the first entry of the list_jobs output
+        job = next(client.list_jobs(parent_job=job.job_id))
+
+    # Kubeflow default output_data_path prefixes gcs paths with '/gcs/' rather
+    # than specifying it with a gs:// protocol identifier
+    kubeflow_output_data_path = (
+        user_output_data_path  # if user_output_data_path else output_data_path
+    )
+
+    # export a table to a GCS location
+    if kubeflow_output_data_path:
+
+        # define variables for job configuration
+        # we want to save the output file in GCS in PARQUET as default
+        jobconfig_outputformat = "PARQUET"
+        jobconfig_compression = "SNAPPY"
+        if output_data_format == "csv":
+            jobconfig_outputformat = "CSV"
+            jobconfig_compression = None
+
+        extract_job = client.extract_table(
+            job.destination,
+            kubeflow_output_data_path,
+            location=job.location,  # e.g. EU
+            job_config=bigquery.job.ExtractJobConfig(
+                destination_format=jobconfig_outputformat,
+                compression=jobconfig_compression,
+            ),
+        )
+
+        extract_job.result()
+    # this is the path of the output file
+    return kubeflow_output_data_path
+
+
 @component(
     packages_to_install=[
         "google_cloud_core",
@@ -173,10 +291,10 @@ def pipeline(
     preprocess_output = preprocess_info()
     # query the dataset and export it
     sql_query = (
-        "SELECT * FROM trustedplatform-pl-staging.fake_dataset.classification_test"
+        "SELECT * FROM `data-gearbox-421420.learning_vertexai.fake_dataset_1`"
     )
 
-    dataset = bigquery.read_from_bq(
+    dataset = read_from_bq(
         sql_query=sql_query,
         project_id=vertex_project,
         save_results=True,
