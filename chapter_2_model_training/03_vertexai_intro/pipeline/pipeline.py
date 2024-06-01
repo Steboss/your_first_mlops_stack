@@ -268,6 +268,7 @@ def pipeline(
     vertex_project: str,
     project_region: str,
     vertex_bucket: str,
+    location: str,
     cache: bool,
     input_data_path: str,
     container_image: str,
