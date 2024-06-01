@@ -16,6 +16,7 @@ ENV PATH $PATH:/usr/local/gcloud/google-cloud-sdk/bin
 
 COPY requirements.txt requirements.txt
 COPY randomforest.py randomforest.py
+RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 ENTRYPOINT ["python", "randomforest.py" ]
