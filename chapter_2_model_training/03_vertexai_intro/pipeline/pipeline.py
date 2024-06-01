@@ -302,7 +302,7 @@ def pipeline(
         output_data_format="csv",
     )
 
-    training_status = train_model.train_model(
+    training_status = train_model(
         artifacts_bucket=artefacts_bucket,
         project_id=vertex_project,
         location=project_region,
