@@ -11,7 +11,7 @@ gsutil cp fake_dataset.csv gs://vertexai_inputfiles/fake_dataset.csv
 
 
 bq --location=EU mk -d \
-    --default_table_expiration 3600 \
+    --default_table_expiration 36000 \
     --description "VertexAI dataset" \
     learning_vertexai
 # create a table from the file
