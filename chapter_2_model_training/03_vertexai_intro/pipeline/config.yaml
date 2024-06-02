@@ -1,9 +1,10 @@
 project_region: europe-west2
 vertex_project: data-gearbox-421420
-vertex_bucket: gs://vertex_inputfiles
+vertex_bucket: gs://vertexai_inputfiles
 cache: False
-input_data_path: gs://vertex_inputfiles/poc_table
+input_data_path: gs://vertexai_inputfiles/poc_table
 container_image: europe-west2-docker.pkg.dev/data-gearbox-421420/randomforest-vertexai/randomforest_vertexai
 location: europe-west2-b
+# this must be created within europe-west2
 artefacts_bucket: vertexai_output_models
 project_id: data-gearbox-421420

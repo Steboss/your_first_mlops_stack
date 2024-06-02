@@ -249,7 +249,7 @@ def preprocess_info() -> NamedTuple("Data",[("training_job_name", str),("trainin
     training_job_name = f"scamspam-{today}"
 
     # here is where our data is outputted from the bigquery component
-    training_args = ["gs://bucket/path"]
+    training_args = ["gs://vertexai_inputfiles/fake_dataset.csv"]
     # output is read as a namedtuple
     output_tuple = namedtuple(
         "Data",
