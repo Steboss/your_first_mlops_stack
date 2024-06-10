@@ -23,6 +23,22 @@ gcloud compute instances create mlflow-server \
     --can-ip-forward \
     --maintenance-policy=MIGRATE \
     --provisioning-model=STANDARD \
+    --metadata=startup-script=\#\!/bin/sh$'\n'$'\n'\#\ \
+remove\ the\ man-db$'\n'sudo\ apt-get\ remove\ -y\ \
+    --purge\ \
+man-db$'\n'\#$'\n'echo\ \"Install\ pip\"$'\n'curl\ https://bootstrap.pypa.io/get-pip.py\ -o\ get-pip.py$'\n'python3\ get-pip.py$'\n'\#\ Install\ GCP\ storage$'\n'echo\ \"pip3\ install\ google-cloud-storage\"$'\n'python3\ -m\ pip\ install\ google-cloud-storage$'\n'$'\n'\#\ Install\ mlflow$'\n'echo\ \"pip3\ install\ mlflow\"$'\n'python3\ -m\ pip\ install\ mlflow$'\n'\#\ add\ the\ mlflow\ bins\ to\ the\ path$'\n'export\ PATH=\$PATH:\~/.local/bin$'\n'echo\ \"MLflow\ version\"$'\n'mlflow\ \
+    --version$'\n'$'\n'echo\ \
+\"Installing\ SQLite3...\"$'\n'sudo\ apt-get\ install\ sqlite3$'\n'$'\n'echo\ \"Sqlite3\ installed\"$'\n'echo\ \"Sqlite\ version\"$'\n'sqlite3\ \
+    --version$'\n'$'\n'echo\ \
+\"Setting\ up\ ip\"$'\n'internalIp=\$\(hostname\ -i\)$'\n'echo\ \"Internal\ IP\ =\ \$\{internalIp\}\"$'\n'$'\n'echo\ \"Spin\ up\ the\ MLflow\ server\"$'\n'mlflow\ server\ \
+    --backend-store-uri\ \
+sqlite:///mlruns.db\ \ \
+    --default-artifact-root\ \
+gs://mlflowartifactsbucket/artifacts\ \
+    --host\ \
+\$internalIp \
+    --maintenance-policy=MIGRATE \
+    --provisioning-model=STANDARD \
     --service-account=${PROJECT_NUMBER}-compute@developer.gserviceaccount.com \
     --scopes=https://www.googleapis.com/auth/cloud-platform \
     --tags=mlflow-server,http-server,https-server \
