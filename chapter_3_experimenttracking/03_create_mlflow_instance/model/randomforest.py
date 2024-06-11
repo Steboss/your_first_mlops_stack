@@ -84,14 +84,14 @@ def main(data_path: str):
     logging.info("Setting up MLflow options")
     today = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
     experiment_name = "randomforest-experiments"
-    client = MlflowClient(tracking_uri="http://localhost:5000")
+    client = MlflowClient(tracking_uri="http://34.105.156.139:5000/")
     experiment_exists = client.get_experiment_by_name(experiment_name)
     if not experiment_exists:
         experiment_id = client.create_experiment(experiment_name)
     else:
         experiment_id = experiment_exists.experiment_id
     run_name = f"stefano-{today}"
-    mlflow.set_tracking_uri("http://10.154.0.2:5000")
+    mlflow.set_tracking_uri("http://34.105.156.139:5000/")
 
 
     logging.info("Loading data...")

@@ -4,17 +4,14 @@
 sudo apt-get remove -y --purge man-db
 #
 echo "Install pip"
-curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-python3 get-pip.py
+sudo apt install python3-pip
 # Install GCP storage
 echo "pip3 install google-cloud-storage"
-python3 -m pip install google-cloud-storage
+pip3 install google-cloud-storage
 
 # Install mlflow
 echo "pip3 install mlflow"
-python3 -m pip install mlflow
-# add the mlflow bins to the path
-export PATH=$PATH:~/.local/bin
+pip3 install mlflow
 echo "MLflow version"
 mlflow --version
 
