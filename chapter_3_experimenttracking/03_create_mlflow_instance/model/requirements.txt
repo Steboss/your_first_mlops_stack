@@ -6,3 +6,4 @@ gcsfs
 typer
 scikit-learn
 joblib
+mlflow

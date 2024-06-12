@@ -182,9 +182,9 @@ def train_model(
 
     logging.getLogger().setLevel(logging.INFO)
     # the project number is needed for the network path
-    # project_number = os.environ["CLOUD_ML_PROJECT_ID"]
-    # logging.info(f"Project {project_number}")
-    # network_path = f"projects/{project_number}/global/networks/default"
+    project_number = os.environ["CLOUD_ML_PROJECT_ID"]
+    logging.info(f"Project {project_number}")
+    network_path = f"projects/{project_number}/global/networks/default"
     # # initialize the aiplatform Client
     aiplatform.init(
         project=project_id, location=location, staging_bucket=artifacts_bucket
@@ -217,7 +217,7 @@ def train_model(
         accelerator_count=accelerator_count,
         base_output_dir="gs://" + artifacts_bucket,
         bigquery_destination=bigquery_destination,
-        # network=network_path,
+        network=network_path,
     )
 
     if model:

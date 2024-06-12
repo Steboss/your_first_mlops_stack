@@ -2,16 +2,17 @@
 
 # remove the man-db
 sudo apt-get remove -y --purge man-db
-#
-echo "Install pip"
-sudo apt install python3-pip
+pip3 install --upgrade pip
+# fix blinker
+sudo apt-get -y remove python3-blinker
+pip3 uninstall -y blinker
+pip3 install blinker==1.8.2
 # Install GCP storage
 echo "pip3 install google-cloud-storage"
 pip3 install google-cloud-storage
-
 # Install mlflow
 echo "pip3 install mlflow"
-pip3 install mlflow
+sudo pip3 install mlflow
 echo "MLflow version"
 mlflow --version
 

@@ -14,6 +14,7 @@ import gcsfs
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
 import logging
 
 # mlflow
@@ -91,8 +92,7 @@ def main(data_path: str):
     else:
         experiment_id = experiment_exists.experiment_id
     run_name = f"stefano-{today}"
-    mlflow.set_tracking_uri("http://34.105.156.139:5000/")
-
+    mlflow.set_tracking_uri("http://35.189.97.120:5000/")
 
     logging.info("Loading data...")
     df = load_data(data_path)
@@ -106,21 +106,33 @@ def main(data_path: str):
     output_folder = os.getcwd() + "/outputs"
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
-    # Random Forest
-    clf = RandomForestClassifier(n_estimators=2)
 
-    params = {"X": X_train, "y": y_train}
+    # Start MLflow run
+    with mlflow.start_run(experiment_id=experiment_id,
+                          run_name=run_name,
+                          nested=False,
+                          tags=None) as run:
+        # Random Forest
+        clf = RandomForestClassifier(n_estimators=2)
 
-    clf.fit(**params)
-    # save the model
-    joblib.dump(clf, f"{output_folder}/model.joblib")
-    logging.info("Saving model")
-    # Copy data to bucket
-    copy_local_directory_to_gcs(
-        f"{output_folder}/model.joblib",
-        "vertexai_output_models",
-        "RandomForestModel",
-    )
+        params = {"X": X_train, "y": y_train}
+
+        clf.fit(**params)
+        # save the model
+        joblib.dump(clf, f"{output_folder}/model.joblib")
+        logging.info("Saving model")
+        # Copy data to bucket
+        copy_local_directory_to_gcs(
+            f"{output_folder}/model.joblib",
+            "vertexai_output_models",
+            "RandomForestModel",
+        )
+        # Log model and parameters
+        mlflow.sklearn.log_model(clf, "random_forest_poc")
+        mlflow.log_params({"n_estimators": 2})
+        # Log accuracy
+        accuracy = accuracy_score(y_test, clf.predict(X_test))
+        mlflow.log_metric("accuracy", accuracy)
 
 
 if __name__ == "__main__":
