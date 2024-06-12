@@ -85,7 +85,7 @@ def main(data_path: str):
     logging.info("Setting up MLflow options")
     today = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
     experiment_name = "randomforest-experiments"
-    client = MlflowClient(tracking_uri="http://34.105.156.139:5000/")
+    client = MlflowClient(tracking_uri="http://35.189.97.120:5000/")
     experiment_exists = client.get_experiment_by_name(experiment_name)
     if not experiment_exists:
         experiment_id = client.create_experiment(experiment_name)
