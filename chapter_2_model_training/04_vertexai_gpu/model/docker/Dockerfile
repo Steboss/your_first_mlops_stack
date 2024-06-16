@@ -15,8 +15,8 @@ RUN apt-get update -q && \
 ENV PATH $PATH:/usr/local/gcloud/google-cloud-sdk/bin
 
 COPY requirements.txt requirements.txt
-COPY randomforest.py randomforest.py
+COPY model_gpu.py model_gpu.py
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-ENTRYPOINT ["python", "randomforest.py" ]
+ENTRYPOINT ["python", "model_gpu.py" ]

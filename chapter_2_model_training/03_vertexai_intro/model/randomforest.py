@@ -28,7 +28,7 @@ def copy_local_directory_to_gcs(local_path: Path, output_bucket: str, gcs_path: 
         output_bucket: str, gcs bucket where we want to save the artefacts to
         gcs_path: str, path in the bucket to save artefacts
     """
-    storage_client = storage.Client("trustedplatform-pl-staging")
+    storage_client = storage.Client("vertexai_output_models")
     bucket = storage_client.get_bucket(output_bucket)
 
     remote_path = f"{gcs_path}/model.joblib"

@@ -6,3 +6,5 @@ gcsfs
 typer
 scikit-learn
 joblib
+torch
+torchvision
