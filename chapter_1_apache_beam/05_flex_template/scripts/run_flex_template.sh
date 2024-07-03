@@ -21,8 +21,8 @@ gcloud dataflow flex-template run ${PIPELINE_NAME} \
 --worker-machine-type=n1-standard-2 \
 --max-workers=${NUM_MAX_WORKERS}  \
 --num-workers=1  \
---temp_location gs://mypipelines-dataflow-temp/ \
---staging_location gs://dataflow-staging-europe-west2-1028464732444/ \
+--temp-location=gs://temp-bucket-for-dataflow-tests/ \
+--staging-location=gs://staging-bucket-for-dataflow-tests/ \
 --parameters job_name=${PIPELINE_NAME} \
 --parameters project=${PROJECT} \
 --parameters region=${REGION} \

@@ -1,5 +1,5 @@
 import mlflow
-import mlflow.sklearn
+#import mlflow.sklearn
 from sklearn import datasets
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split

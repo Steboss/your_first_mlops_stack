@@ -1,4 +1,5 @@
 import random
+import sys
 from datetime import datetime, timedelta
 
 
@@ -15,10 +16,11 @@ def generate_log_entry():
 
 
 if __name__ == '__main__':
+    n_rows = sys.argv[1]
     output_file = 'log_entries_large.txt'
 
     with open(output_file, 'w') as file:
-        for _ in range(100):
+        for _ in range(n_rows):
             file.write(generate_log_entry() + '\n')
 
     print(f"Generated log entries file: {output_file}")
