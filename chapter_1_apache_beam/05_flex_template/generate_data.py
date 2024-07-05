@@ -7,7 +7,7 @@ from structlog import get_logger
 
 logger = get_logger()
 project_id = "data-gearbox-421420"
-topic_id = "input-normal-window"
+topic_id = "normal-window"
 
 publisher = pubsub_v1.PublisherClient()
 topic_path = publisher.topic_path(project_id, topic_id)
