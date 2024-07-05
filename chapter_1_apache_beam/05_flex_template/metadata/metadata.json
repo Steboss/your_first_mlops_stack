@@ -3,12 +3,12 @@
     "description": "This is a processing log pipeline",
     "parameters": [
       {
-        "name": "input_subscription",
+        "name": "input-subscription",
         "label": "Input subscription",
         "helpText": "Input subscription to read messages from"
       },
       {
-        "name": "output_topic",
+        "name": "output-topic",
         "label": "Output topic",
         "helpText": "Output topic to write messages to"
       },
