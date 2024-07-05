@@ -7,7 +7,7 @@ export FLEX_BUCKET="flex_templates_my_pipeline"
 export TEMPLATE_FILE="normal_window_template.json"
 export DATAFLOW_GCS_LOCATION="gs://${FLEX_BUCKET}/${TEMPLATE_FILE}.json"
 export NUM_MAX_WORKERS=2
-export INPUT_SUBSCRIPTION="projects/${PROJECT_ID}/subscriptions/normal-window"
+export INPUT_SUBSCRIPTION="projects/${PROJECT_ID}/subscriptions/normal-window-sub"
 export OUTPUT_TOPIC="projects/${PROJECT_ID}/topics/example-normal-window"
 
 
