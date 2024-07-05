@@ -3,14 +3,14 @@
     "description": "This is a processing log pipeline",
     "parameters": [
       {
-        "name": "input-file",
-        "label": "Input File",
-        "helpText": "Path to the input file"
+        "name": "input_subscription",
+        "label": "Input subscription",
+        "helpText": "Input subscription to read messages from"
       },
       {
-        "name": "output-file",
-        "label": "Output File",
-        "helpText": "Path to the output file"
+        "name": "output_topic",
+        "label": "Output topic",
+        "helpText": "Output topic to write messages to"
       },
       {
         "name": "project",
