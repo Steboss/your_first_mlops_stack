@@ -36,6 +36,6 @@ gcloud dataflow flex-template run ${PIPELINE_NAME} \
 --parameters job_name=${JOB_NAME} \
 --parameters project=${PROJECT_ID} \
 --parameters region=${REGION} \
---parameters gcs-bucket=gs://${INPUT_BUCKET} \
+--parameters gcs-bucket=${INPUT_BUCKET} \
 --parameters gcs-file=${INPUT_FILE} \
 --parameters output-bucket=${OUTPUT_BUCKET}
