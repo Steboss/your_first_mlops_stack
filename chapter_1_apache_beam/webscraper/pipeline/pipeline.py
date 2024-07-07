@@ -146,7 +146,7 @@ def run_pipeline(argv=None):
                           | 'ReadScrapingFile' >> beam.ParDo(ReadGCSFile(known_args.gcs_bucket, known_args.gcs_file))
                         )
         scraped = search_terms | 'ScrapeNews' >> beam.ParDo(ScrapeNews())
-        #_ = scraped | 'GenerateWordCloud' >> beam.ParDo(GenerateWordCloud(output_path=known_args.output_bucket))
+        _ = scraped | 'GenerateWordCloud' >> beam.ParDo(GenerateWordCloud(output_path=known_args.output_bucket))
 
     result = p.run()
     result.wait_until_finish()
