@@ -33,6 +33,7 @@ gcloud dataflow flex-template run ${PIPELINE_NAME} \
 --num-workers=1  \
 --temp-location=gs://temp-bucket-for-dataflow-tests/ \
 --staging-location=gs://staging-bucket-for-dataflow-tests/ \
+--additional-experiments=enable_data_sampling \
 --parameters job_name=${JOB_NAME} \
 --parameters project=${PROJECT_ID} \
 --parameters region=${REGION} \
