@@ -3,9 +3,14 @@
     "description": "This is a webscraper",
     "parameters": [
       {
-        "name": "input-file",
-        "label": "Input file",
-        "helpText": "File with of terms to look for"
+        "name": "gcs-bucket",
+        "label": "GCS bucket of input file",
+        "helpText": "Bucket for input file wiht words to scrape"
+      },
+      {
+        "name": "gcs-file",
+        "label": "GCS file",
+        "helpText": "File with words to scrape"
       },
       {
         "name": "output-bucket",

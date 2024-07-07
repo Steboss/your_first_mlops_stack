@@ -9,6 +9,8 @@ export DATAFLOW_GCS_LOCATION="gs://${FLEX_BUCKET}/${TEMPLATE_FILE}"
 export PIPELINE_NAME="webscraper-pipeline"
 export JOB_NAME="webscraper-pipeline"
 export OUTPUT_BUCKET="output-results-for-dataflow-tests"
+export INPUT_BUCKET="output-results-for-dataflow-tests"
+export INPUT_FILE="input_words.txt"
 NUM_MAX_WORKERS=2
 
 if ! gsutil ls -p ${PROJECT_ID} gs://${OUTPUT_BUCKET} &> /dev/null;
@@ -34,5 +36,6 @@ gcloud dataflow flex-template run ${PIPELINE_NAME} \
 --parameters job_name=${JOB_NAME} \
 --parameters project=${PROJECT_ID} \
 --parameters region=${REGION} \
---parameters input-file=gs://flex_templates_my_pipeline/input_words.txt \
+--parameters gcs-bucket=gs://${INPUT_BUCKET} \
+--parameters gcs-file=${INPUT_FILE} \
 --parameters output-bucket=${OUTPUT_BUCKET}
