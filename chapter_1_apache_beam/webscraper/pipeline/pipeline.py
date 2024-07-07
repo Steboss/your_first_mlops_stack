@@ -85,7 +85,7 @@ class ScrapeNews(beam.DoFn):
             newspaper_titles = newspaper_titles[:-2]
 
             news_titles, news_names = remove_duplicates_and_corresponding_elements(newspaper_titles, newspaper_names)
-            logger.info(f"Returning {len(news_titles)} news titles and {len(news_names)} newspaper names"
+            logger.info(f"Returning {len(news_titles)} news titles and {len(news_names)} newspaper names")
             # NB how we're returning the elements
             yield element, (news_titles, news_names)
 
