@@ -22,7 +22,7 @@ gcloud dataflow flex-template build gs://${FLEX_BUCKET}/${TEMPLATE_FILE} \
 --project ${PROJECT_ID} \
 --worker-region europe-west2 \
 --env  "FLEX_TEMPLATE_PYTHON_REQUIREMENTS_FILE=requirements.txt" \
---env "FLEX_TEMPLATE_PYTHON_PY_FILE=pipeline/processing_logs.py" \
+--env "FLEX_TEMPLATE_PYTHON_PY_FILE=pipeline/windowing_pipeline.py" \
 --env "FLEX_TEMPLATE_PYTHON_SETUP_FILE=setup.py" \
 --flex-template-base-image "PYTHON3" \
 --py-path "."
