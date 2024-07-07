@@ -12,15 +12,6 @@ gcloud artifacts repositories create ${ARTIFACT_REGISTRY_REPO} \
 --repository-format=docker \
 --location=europe-west2 \
 --description="Artifact Registry for the webscraper pipeline"
-# docker image
-
-echo "Build Docker image"
-docker build --no-cache -t webscraper_pipeline -f docker/Dockerfile .
-echo "Tag Docker image"
-docker tag webscraper_pipeline europe-west2-docker.pkg.dev/${PROJECT_ID}/${ARTIFACT_REGISTRY_REPO}/webscraper_pipeline:latest
-echo "Push Docker image"
-docker push europe-west2-docker.pkg.dev/${PROJECT_ID}/${ARTIFACT_REGISTRY_REPO}/webscraper_pipeline:latest
-
 # flex template
 
 if ! gsutil ls -p ${PROJECT_ID} gs://${FLEX_BUCKET} &> /dev/null;

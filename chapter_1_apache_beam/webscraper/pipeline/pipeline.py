@@ -12,6 +12,26 @@ from google.cloud import storage
 logger = get_logger()
 
 
+class ReadGCSFile(beam.DoFn):
+    def __init__(self, bucket_name, file_name):
+        """ Constructor to receive the bucket name and file name"""
+        self.bucket_name = bucket_name
+        self.file_name = file_name
+
+    def setup(self):
+        """ The setup allows you to keep a gcloud Client active"""
+        self.storage_client = storage.Client()
+
+    def process(self, element):
+        """ Main processing function"""
+        bucket = self.storage_client.bucket(self.bucket_name)
+        blob = bucket.blob(self.file_name)
+        file_content = blob.download_as_text()
+        search_terms = file_content.strip().split('\n')
+        for term in search_terms:
+            yield term
+
+
 class ScrapeNews(beam.DoFn):
     def process(self, element):
         """ Transform to perform scraping
@@ -73,9 +93,13 @@ class GenerateWordCloud(beam.DoFn):
         """ We need a constructor to set the output path"""
         self.output_path = output_path
 
+    def setup(self):
+        """ Setup the client storage client"""
+        self.storage_client = storage.Client()
+
     def process(self, element):
         """ Generate a word cloud from the titles"""
-        filename, data = element[0]
+        search_term, data = element
         text = ' '.join(data[0])
         stopwords = set(STOPWORDS)
         generated_wordcloud = WordCloud(stopwords=stopwords, width=800, height=400, background_color='white').generate(text)
@@ -89,19 +113,16 @@ class GenerateWordCloud(beam.DoFn):
         # Reset stream position
         output.seek(0)
         # Write to Google Cloud Storage
-        storage_client = storage.Client()
-        bucket = storage_client.get_bucket(self.output_path)
-        blob = bucket.blob(f"{filename}.png")
-
+        bucket = self.storage_client.bucket(self.output_path)
+        blob = bucket.blob(f"{search_term}.wordcloud.png")
         blob.upload_from_string(output.getvalue(), content_type='image/png')
 
 
 def run_pipeline(argv=None):
     parser = argparse.ArgumentParser()
     # this must be changed with an input file
-    parser.add_argument('--input-file', dest='input_file',
-                        help="File with a list of words to look for",
-                        required=True)
+    parser.add_argument('--gcs-bucket', dest='gcs_bucket', help="GCS bucket containing the to-scrape file", required=True)
+    parser.add_argument('--gcs-file', dest='gcs_file', help="Input file in GCS bucket with the words to scrape", required=True)
     parser.add_argument('--output-bucket', dest='output_bucket',
                         help="Output bucket to save wordcloud", required=True)
     parser.add_argument('--job_name', dest='job_name', required=True)
@@ -118,13 +139,10 @@ def run_pipeline(argv=None):
     )
 
     with beam.Pipeline(options=pipeline_options) as p:
-        # Read lines from the input file directly into a PCollection
-        lines = (p | 'ReadFromFile' >> beam.io.ReadFromText(known_args.input_file)
-                   | 'Split lines' >> beam.Map(lambda x: x.split('\n')))
-
-        # Apply the ScrapeNews transform
-        scraped = lines | 'ScrapeNews' >> beam.ParDo(ScrapeNews())
-        # Generate and save word clouds
+        search_terms = (p | 'Start' >> beam.Create([None])
+                          | 'ReadScrapingFile' >> beam.ParDo(ReadGCSFile(known_args.gcs_bucket, known_args.gcs_file))
+                        )
+        scraped = search_terms | 'ScrapeNews' >> beam.ParDo(ScrapeNews())
         _ = scraped | 'GenerateWordCloud' >> beam.ParDo(GenerateWordCloud(output_path=known_args.output_bucket))
 
     result = p.run()
