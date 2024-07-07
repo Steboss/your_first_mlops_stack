@@ -2,7 +2,7 @@
 
 export PIPELINE_NAME="window-pipeline"
 export PROJECT=$(gcloud config get-value project)
-export REGION="europe-west2"
+export REGION="us-central1" # there may not be availability in europe
 export FLEX_BUCKET="flex_templates_my_pipeline"
 export TEMPLATE_FILE="normal_window_template.json"
 export DATAFLOW_GCS_LOCATION="gs://${FLEX_BUCKET}/${TEMPLATE_FILE}"
