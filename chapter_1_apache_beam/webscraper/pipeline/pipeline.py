@@ -64,12 +64,13 @@ class ScrapeNews(beam.DoFn):
             newspaper_names = []
             newspaper_titles = []
             if response.status_code == 200:
+                logger.info("Request code 200")
                 soup = BeautifulSoup(response.text, 'html.parser')
                 # newspaper titles
                 newspaper_titles_div = soup.find_all('div', class_='vr1PYe')
                 for news_title in newspaper_titles_div:
                     newspaper_names.append(news_title.text)
-
+                logger.info(f"Scraped {len(newspaper_names)} newspaper names")
                 # title
                 buttons = soup.find_all('button', {'aria-label': True})
                 for button in buttons:
@@ -77,14 +78,15 @@ class ScrapeNews(beam.DoFn):
                         # remove "More -" from the title
                         title = button.attrs['aria-label'].replace("More - ", "")
                         newspaper_titles.append(title)
-
+                logger.info(f"Scraped {len(newspaper_titles)} newspaper titles")
             # remove the first 6 elements from titles
             newspaper_titles = newspaper_titles[6:]
             # as well as the last 2 elements
             newspaper_titles = newspaper_titles[:-2]
 
             news_titles, news_names = remove_duplicates_and_corresponding_elements(newspaper_titles, newspaper_names)
-            # NB how we're returning the elemnts
+            logger.info(f"Returning {len(news_titles)} news titles and {len(news_names)} newspaper names"
+            # NB how we're returning the elements
             yield element, (news_titles, news_names)
 
 
@@ -99,6 +101,7 @@ class GenerateWordCloud(beam.DoFn):
 
     def process(self, element):
         """ Generate a word cloud from the titles"""
+        logger.info(f"Element {element}")
         search_term, data = element
         text = ' '.join(data[0])
         stopwords = set(STOPWORDS)
