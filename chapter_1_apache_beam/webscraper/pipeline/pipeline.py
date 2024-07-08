@@ -100,10 +100,13 @@ class GenerateWordCloud(beam.DoFn):
         self.storage_client = storage.Client()
 
     def process(self, element):
-        """ Generate a word cloud from the titles"""
-        logger.info(f"Element {element}")
+        """ Generate a word cloud from the titles
+
+        The element in this case is
+        (search_term, ([news_titles], [newspaper_names]))"""
         search_term, data = element
-        text = ' '.join(data[0])
+        logger.info(f"Generating word cloud for {data[0][0]}")
+        text = ' '.join(data[0][0])
         stopwords = set(STOPWORDS)
         generated_wordcloud = WordCloud(stopwords=stopwords, width=800, height=400, background_color='white').generate(text)
         # Prepare to save the image to GCS
