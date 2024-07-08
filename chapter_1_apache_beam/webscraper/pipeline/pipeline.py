@@ -3,13 +3,13 @@ import apache_beam as beam
 from apache_beam.options.pipeline_options import PipelineOptions
 import requests
 from bs4 import BeautifulSoup
-from structlog import get_logger
+import logging
 from io import BytesIO
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud, STOPWORDS
 from google.cloud import storage
 
-logger = get_logger()
+logger = logging.getLogger()
 
 
 class ReadGCSFile(beam.DoFn):
