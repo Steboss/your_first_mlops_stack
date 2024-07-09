@@ -2,10 +2,10 @@ import argparse
 import apache_beam as beam
 from apache_beam.options.pipeline_options import PipelineOptions
 from apache_beam import window
-from structlog import get_logger
+import logging
 import json
 
-logger = get_logger()
+logger = logging.getLogger()
 
 
 class ComputeMovingAverageFn(beam.DoFn):

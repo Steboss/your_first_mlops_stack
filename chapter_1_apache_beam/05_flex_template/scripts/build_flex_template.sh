@@ -1,17 +1,9 @@
 #!/bin/bash
 
-
 export ARTIFACT_REGISTRY_REPO="normal-window-pipeline"
 export PROJECT_ID=$(gcloud config get-value project)
 export FLEX_BUCKET="flex_templates_my_pipeline"
 export TEMPLATE_FILE="normal_window_template.json"
-
-# echo "Build Docker image"
-# docker build --no-cache -t window_pipeline -f docker/Dockerfile .
-# echo "Tag Docker image"
-# docker tag window_pipeline europe-west2-docker.pkg.dev/${PROJECT_ID}/${ARTIFACT_REGISTRY_REPO}/window_pipeline:latest
-# echo "Push Docker image"
-# docker push europe-west2-docker.pkg.dev/${PROJECT_ID}/${ARTIFACT_REGISTRY_REPO}/window_pipeline:latest
 
 echo "*************************"
 echo "Build Flex Template"

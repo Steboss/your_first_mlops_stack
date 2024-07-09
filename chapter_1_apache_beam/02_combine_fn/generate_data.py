@@ -16,7 +16,7 @@ def generate_log_entry():
 
 
 if __name__ == '__main__':
-    n_rows = sys.argv[1]
+    n_rows = int(sys.argv[1])
     output_file = 'log_entries_large.txt'
 
     with open(output_file, 'w') as file:

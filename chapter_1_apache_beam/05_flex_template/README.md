@@ -29,14 +29,9 @@ The script `scripts/build_flex_template.sh` does this for you. Run it as:
 bash scripts/build_flex_template.sh
 ```
 
-This is what happens:
-
-- The docker image `window_pipeline` is created from the input `Dockerfile`
-- The image is tagged, so it can be pushed to the artifact registry: `europe-west2-docker.pkg.dev/${PROJECT_ID}/normal-window-pipeline/window_pipeline:latest`; where `normal-window-pipeline` is the name of the artifact registry repository.
-
-Then, the `gcloud dataflow flex-template build` command is used:
+The `gcloud dataflow flex-template build` command is used:
 - This command needs a google storage, `gs`, path to store the `json` template file
-- an input image for the pipeline
+- an input artifact registry repo for the pipeline's image
 - the language we want to use, in this case `"PYTHON"`
 - the input metadata for our pipeline, that are stored in `metadata/metadata.json`
 - the region where we want the pipeline's workers to run from

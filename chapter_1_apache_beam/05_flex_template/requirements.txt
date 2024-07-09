@@ -2,4 +2,3 @@ apache-beam
 apache-beam[gcp]
 google-cloud-storage
 gcsfs
-structlog
