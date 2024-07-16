@@ -45,7 +45,7 @@ def load_data(data_path):
     logging.info(f"Data parsing {data_path}")
     data_path_as_url = urlparse(data_path)
     if data_path_as_url.scheme == "gs":
-        dataset_location_path = urljoin(data_path_as_url.path, "poc_table")
+        dataset_location_path = urljoin(data_path_as_url.path, "fake_dataset.csv")
         dataset_location_url = ParseResult(
             scheme=data_path_as_url.scheme,
             netloc=data_path_as_url.netloc,

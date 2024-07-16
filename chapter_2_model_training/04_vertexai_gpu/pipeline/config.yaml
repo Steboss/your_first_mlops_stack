@@ -2,7 +2,7 @@ project_region: europe-west2
 vertex_project: data-gearbox-421420
 vertex_bucket: gs://vertexai_inputfiles
 cache: False
-input_data_path: gs://vertexai_inputfiles/poc_table
+input_data_path: gs://vertexai_inputfiles/fake_dataset.csv
 container_image: europe-west2-docker.pkg.dev/data-gearbox-421420/model-gpu-vertexai/model_gpu
 location: europe-west2-b
 # this must be created within europe-west2

@@ -169,6 +169,8 @@ def train_model(
         after_component: This is an optional input and can be of any type,
                         if the component has to be execute sequentially in general
 
+    https://cloud.google.com/vertex-ai/docs/reference/rest/v1beta1/MachineSpec#AcceleratorType
+
     Returns
     ------
         model.resource_name: aiplatform.Model, return the resource path of the model.
@@ -310,6 +312,8 @@ def pipeline(
         model_image=container_image,
         training_job_name=preprocess_output.outputs["training_job_name"],
         training_args=preprocess_output.outputs["training_args"],
+        accelerator_type="NVIDIA_TESLA_T4",
+        accelerator_count=1,
         after_component=dataset.output,
     )
 
