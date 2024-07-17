@@ -4,7 +4,7 @@ vertex_bucket: gs://vertexai_inputfiles
 cache: False
 input_data_path: gs://vertexai_inputfiles/fake_dataset.csv
 container_image: europe-west2-docker.pkg.dev/data-gearbox-421420/model-gpu-vertexai/model_gpu
-location: europe-west1
+location: us-central1
 # this must be created within europe-west2
 artefacts_bucket: vertexai_output_models
 project_id: data-gearbox-421420
