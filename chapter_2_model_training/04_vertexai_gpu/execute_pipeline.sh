@@ -5,5 +5,5 @@ venv/bin/pip install "pyyaml==5.4.1" --no-build-isolation
 venv/bin/pip install -r requirements.txt
 
 cd pipeline
-../venv/bin/python pipeline.py
+../venv/bin/python pipeline_with_vm.py
 
