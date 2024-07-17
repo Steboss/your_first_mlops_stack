@@ -1,22 +1,11 @@
-FROM python:3.9-slim-buster
+FROM tensorflow/tensorflow:2.10.0-gpu
 
-RUN apt-get update -q && \
-    apt-get install -q -y \
-    curl \
-    zip \
-    unzip \
-    libgomp1 \
-    gunicorn3 \
-    postgresql \
-    libpq-dev \
-    && apt-get clean
+ARG WORKDIR=/mlflow_tutorial
+RUN mkdir -p ${WORKDIR}
+WORKDIR ${WORKDIR}
 
-# Adding the package path to local
-ENV PATH $PATH:/usr/local/gcloud/google-cloud-sdk/bin
+RUN python -m pip install matplotlib
+RUN python -m pip install scikit-learn numpy
+COPY model.py .
 
-COPY requirements.txt requirements.txt
-COPY model_gpu.py model_gpu.py
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
-
-ENTRYPOINT ["python", "model_gpu.py" ]
+CMD ["python", "model.py"]
