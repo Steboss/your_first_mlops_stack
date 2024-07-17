@@ -313,7 +313,7 @@ def pipeline(
         training_job_name=preprocess_output.outputs["training_job_name"],
         training_args=preprocess_output.outputs["training_args"],
         accelerator_type="NVIDIA_A100_80GB",
-        machine_type="a2-ultragpu-1g",
+        machine_type="a2-ultragpu-8g",
         accelerator_count=1,
         after_component=dataset.output,
     )
