@@ -251,7 +251,7 @@ def preprocess_info() -> NamedTuple("Data",[("training_job_name", str),("trainin
     training_job_name = f"scamspam-{today}"
 
     # here is where our data is outputted from the bigquery component
-    training_args = ["gs://vertexai_inputfiles/iris.csv"]
+    training_args = ["gs://vertexai_inputfiles/fake_dataset.csv"]
     # output is read as a namedtuple
     output_tuple = namedtuple(
         "Data",
@@ -294,7 +294,7 @@ def pipeline(
     preprocess_output = preprocess_info()
     # query the dataset and export it
     sql_query = (
-        "SELECT * FROM `data-gearbox-421420.learning_vertexai.iris_dataset`"
+        "SELECT * FROM `data-gearbox-421420.learning_vertexai.fake_dataset_1`"
     )
 
     dataset = read_from_bq(
