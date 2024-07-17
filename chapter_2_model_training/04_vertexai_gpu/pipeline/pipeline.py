@@ -313,7 +313,7 @@ def pipeline(
         training_job_name=preprocess_output.outputs["training_job_name"],
         training_args=preprocess_output.outputs["training_args"],
         accelerator_type="NVIDIA_TESLA_P4",
-        machine_type="n1-highmem-96",
+        machine_type="n1-highcpu-96",
         accelerator_count=1,
         after_component=dataset.output,
     )
