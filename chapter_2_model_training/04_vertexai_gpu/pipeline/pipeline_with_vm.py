@@ -165,8 +165,8 @@ def train_on_gpu(
         instance_client = compute_v1.InstancesClient()
 
         # Use the network interface provided in the network_link argument.
-        #network_interface = compute_v1.NetworkInterface()
-        #network_interface.name = network_link
+        network_interface = compute_v1.NetworkInterface()
+        network_interface.name = network_link
 
         if external_access:
             access = compute_v1.AccessConfig()
@@ -179,7 +179,7 @@ def train_on_gpu(
 
         # Collect information into the Instance object.
         instance = compute_v1.Instance()
-        #instance.network_interfaces = [network_interface]
+        instance.network_interfaces = [network_interface]
         instance.name = instance_name
 
         # Setup metadata
