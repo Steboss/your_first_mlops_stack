@@ -1,4 +1,4 @@
-project_region: europe-west2
+project_region: us-central1
 vertex_project: data-gearbox-421420
 vertex_bucket: gs://vertexai_inputfiles
 cache: False
