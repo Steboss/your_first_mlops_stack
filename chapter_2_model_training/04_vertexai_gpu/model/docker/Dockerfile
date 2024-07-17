@@ -6,6 +6,6 @@ WORKDIR ${WORKDIR}
 
 RUN python -m pip install matplotlib
 RUN python -m pip install scikit-learn numpy
-COPY model.py .
+COPY model_gpu.py ${WORKDIR}/model.py
 
 CMD ["python", "model.py"]
