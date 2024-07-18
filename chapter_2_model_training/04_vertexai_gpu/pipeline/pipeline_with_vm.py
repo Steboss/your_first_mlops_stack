@@ -383,7 +383,7 @@ if __name__ == "__main__":
         "vertex_project": "data-gearbox-421420",
         "instance_name": "mnist-gpu-example",
         "container_image": "europe-west2-docker.pkg.dev/data-gearbox-421420/model-gpu-vertexai/model_gpu", # noqa
-        "location": "europe-west2-a",
+        "location": "us-central1-b",
         "artefacts_bucket": "vertexai_output_gpu_america",
         # required by the vertex pipeline
         "project_region": "europe-west2",
