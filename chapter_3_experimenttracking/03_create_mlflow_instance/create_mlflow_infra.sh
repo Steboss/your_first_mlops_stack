@@ -56,7 +56,8 @@ sqlite3 --version
 echo "Setting up ip"
 internalIp=$(hostname -i)
 echo "Internal IP = ${internalIp}"
-mlflow server --backend-store-uri sqlite:///mlruns.db  --default-artifact-root gs://mlflowartifactsbucket/artifacts --host $internalIp --port 5000
+mlflow server --backend-store-uri sqlite:///mlruns.db  --default-artifact-root gs://mlflowartifactsbucket/artifacts --host $internalIp
+
 EOF'
 
 # Create a network rule
