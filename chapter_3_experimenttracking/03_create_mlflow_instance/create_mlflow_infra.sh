@@ -15,7 +15,7 @@ if ! gsutil ls -p ${PROJECT_ID} gs://${MLFLOW_BUCKET} &> /dev/null;
 fi
 
 # Create the MLflow instance
-gcloud compute instances create mlflow-server \
+gcloud compute instances create mlflow-server2 \
     --project=${PROJECT_ID} \
     --zone=europe-west2-b \
     --machine-type=e2-medium \
@@ -33,10 +33,31 @@ gcloud compute instances create mlflow-server \
     --shielded-vtpm \
     --shielded-integrity-monitoring \
     --labels=goog-ec-src=vm_add-gcloud \
-    --reservation-affinity=any
+    --reservation-affinity=any \
+    --metadata=startup-script='#!/bin/sh
+sudo apt-get remove -y --purge man-db
+pip3 install --upgrade pip
+sudo apt-get -y remove python3-blinker
+pip3 uninstall -y blinker
+pip3 install blinker==1.8.2
+echo "pip3 install google-cloud-storage"
+pip3 install google-cloud-storage
+echo "pip3 install mlflow"
+sudo pip3 install mlflow
+echo "MLflow version"
+mlflow --version
+echo "Installing SQLite3..."
+sudo apt-get install sqlite3
+echo "Sqlite3 installed"
+echo "Sqlite version"
+sqlite3 --version
+echo "Setting up ip"
+internalIp=$(hostname -i)
+echo "Internal IP = ${internalIp}
+EOF'
 
 # Create a network rule
-gcloud compute --project=${PROJECT_ID} firewall-rules create mlflow-server \
+gcloud compute --project=${PROJECT_ID} firewall-rules create mlflow-server2 \
         --direction=INGRESS \
         --priority=999 \
         --network=default \
