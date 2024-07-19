@@ -38,13 +38,14 @@ gcloud compute instances create mlflow-server2 \
 sudo apt-get remove -y --purge man-db
 sudo apt-get -y remove python3-blinker
 sudo apt-get update
-sudo apt-get install -yq git python python-pip
-pip uninstall -y blinker
-pip install blinker==1.8.2
+sudo apt-get install -yq git python3 python3-pip
+sudo apt-get install -yq blinker
+pip3 uninstall -y blinker
+pip3 install blinker==1.8.2
 echo "pip3 install google-cloud-storage"
-pip install google-cloud-storage
+pip3 install google-cloud-storage
 echo "pip3 install mlflow"
-sudo pip install mlflow
+sudo pip3 install mlflow
 echo "MLflow version"
 mlflow --version
 echo "Installing SQLite3..."
@@ -54,7 +55,7 @@ echo "Sqlite version"
 sqlite3 --version
 echo "Setting up ip"
 internalIp=$(hostname -i)
-echo "Internal IP = ${internalIp}
+echo "Internal IP = ${internalIp}"
 EOF'
 
 # Create a network rule
