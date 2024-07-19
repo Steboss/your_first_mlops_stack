@@ -37,6 +37,8 @@ gcloud compute instances create mlflow-server2 \
     --metadata=startup-script='#!/bin/sh
 sudo apt-get remove -y --purge man-db
 sudo apt-get -y remove python3-blinker
+sudo apt-get update
+sudo apt-get install -yq git python python-pip
 pip uninstall -y blinker
 pip install blinker==1.8.2
 echo "pip3 install google-cloud-storage"
