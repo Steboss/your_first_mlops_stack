@@ -61,7 +61,7 @@ mlflow server --backend-store-uri sqlite:///mlruns.db  --default-artifact-root g
 EOF'
 
 # Create a network rule
-gcloud compute --project=${PROJECT_ID} firewall-rules create mlflow-server2 \
+gcloud compute --project=${PROJECT_ID} firewall-rules create mlflow-server \
         --direction=INGRESS \
         --priority=999 \
         --network=default \
