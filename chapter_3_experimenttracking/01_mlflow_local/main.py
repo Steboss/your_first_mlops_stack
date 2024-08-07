@@ -69,7 +69,7 @@ class Net(L.LightningModule):
 
 
 today = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+#device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Data transformations and loaders
 transform = transforms.Compose([
@@ -90,7 +90,7 @@ optimizer = optim.Adam(mnist_model.parameters())
 loss_fn = nn.CrossEntropyLoss()
 trainer = L.Trainer(max_epochs=5)
 
-experiment_name = "pytorch-MNIST"
+experiment_name = "pytorch-lightning-MNIST" #127.0.0.1
 client = MlflowClient(tracking_uri="http://localhost:5000")
 experiment_exists = client.get_experiment_by_name(experiment_name)
 if not experiment_exists:

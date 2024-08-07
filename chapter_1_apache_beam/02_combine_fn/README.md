@@ -41,3 +41,5 @@ Run the combine pipeline
 DATE=$(date + %Y%m%d)
 python combine --input-file -log_entries_large.txt --output-file output-word-count-${DATE}.txt
 ```
+
+This command will run the Beam pipeline locally. An output file called `output-word-count-*.txt` will be generated. The file will have a suffix that is given by today's date.

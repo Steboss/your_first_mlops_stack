@@ -8,6 +8,25 @@ Follow the slides to setup the GCP environment. Then, activate the GCP Shell in 
 
 ![Activate Shell](imgs/ActivateShell.png)
 
+#### BEFORE EVERYTHING ELSE
+
+Before everything else, as I am explaining in the lesson, we need to set up our GCP service account. For this I am going to run the following commands, one by one:
+```
+gcloud init
+
+gcloud config set project $(gcloud config get-value project)
+
+gcloud services enable dataflow compute_component logging storage_component storage_api bigquery pubsub datastore.googleapis.com cloudresourcemanager.googleapis.com
+
+gcloud auth application-default login
+
+gcloud projects add-iam-policy-binding $(gcloud config get-value project) --member="user:YOUREMAIL@gmail.com" --role=roles/iam.serviceAccountUser
+
+gcloud projects add-iam-policy-binding $(gcloud config get-value project) --member="serviceAccount:YOURPROJECTNUMBER-compute@developer.gserviceaccount.com" --role=roles/dataflow.admin
+gcloud projects add-iam-policy-binding $(gcloud config get-value project) --member="serviceAccount:YOURPROJECTNUMBER-compute@developer.gserviceaccount.com" --role=roles/dataflow.worker
+gcloud projects add-iam-policy-binding $(gcloud config get-value project) --member="serviceAccount:YOURPROJECTNUMBER-compute@developer.gserviceaccount.com" --role=roles/stora
+```
+
 #### 2. Clone the repo and install requirements
 
 From the bash shell, clone this repository:

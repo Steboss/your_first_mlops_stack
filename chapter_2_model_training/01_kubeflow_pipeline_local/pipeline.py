@@ -13,6 +13,7 @@ def say_hello(name: str) -> str:
 @dsl.pipeline
 def hello_pipeline(recipient: str) -> str:
     hello_task = say_hello(name=recipient)
+    hello_task.set_caching_options(False)
     return hello_task.output
 
 
